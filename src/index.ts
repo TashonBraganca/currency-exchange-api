@@ -7,7 +7,7 @@ const PORT = process.env.PORT || 3000;
 
 async function start() {
   try {
-    // Initialize database
+    // Initialize database (non-blocking, will retry on first use if unavailable)
     await initDB();
 
     // Start server
@@ -17,8 +17,9 @@ async function start() {
 
     // Fetch quotes every 30 seconds to ensure fresh data
     cron.schedule('*/30 * * * * *', async () => {
-      console.log('Scheduled fetch: Refreshing quotes...');
-      await fetchAllQuotes();
+      await fetchAllQuotes().catch(err => {
+        console.error('Error in scheduled fetch:', err);
+      });
     });
 
     // Graceful shutdown

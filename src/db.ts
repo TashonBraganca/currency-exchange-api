@@ -29,8 +29,7 @@ export async function initDB() {
 
     console.log('Database initialized successfully');
   } catch (error) {
-    console.error('Database initialization error:', error);
-    process.exit(1);
+    console.warn('Database initialization warning (will retry on first use):', (error as Error).message);
   }
 }
 
