@@ -3,7 +3,7 @@ import { initDB } from './db';
 import cron from 'node-cron';
 import { fetchAllQuotes } from './scrapers';
 
-const PORT = process.env.PORT || 3000;
+const PORT = parseInt(process.env.PORT || '3000', 10);
 
 async function start() {
   try {
